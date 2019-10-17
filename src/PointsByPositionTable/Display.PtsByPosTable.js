@@ -59,7 +59,7 @@ const sorters = columns.map(col => {
     }
 });
 
-function PointsByPositionTable(props) {
+function DisplayPointsByPositionTable(props) {
     const classes = useStyles();
     const [teamStats, setTeamStats] = useState([]);
     const [activeSorter, setActiveSorter] = useState("Total");
@@ -82,19 +82,6 @@ function PointsByPositionTable(props) {
                         {columns.map(col => <TableCell>{col}</TableCell>)}
                     </TableRow>
                 </TableHead>
-                {/* <TableBody>
-                    {teamStats.map(team => (
-                        <TableRow key={team.id}>
-                            <TableCell component="th" scope="row">
-                                {team.location + " " + team.nickname}
-                            </TableCell>
-                            <TableCell align="right">{row.calories}</TableCell>
-                            <TableCell align="right">{row.fat}</TableCell>
-                            <TableCell align="right">{row.carbs}</TableCell>
-                            <TableCell align="right">{row.protein}</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody> */}
                 <TableBody>
                     {teamStats.sort(sorters.find(srtr => srtr.sortBy === activeSorter).sorter).map(team => {
                         return (
@@ -134,4 +121,4 @@ function PointsByPositionTable(props) {
 };
 
 
-export default PointsByPositionTable;
+export default DisplayPointsByPositionTable;
