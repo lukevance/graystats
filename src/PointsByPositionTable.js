@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -59,10 +59,20 @@ const sorters = columns.map(col => {
     }
 });
 
-function PointsByPositionTable() {
+function PointsByPositionTable(props) {
     const classes = useStyles();
     const [teamStats, setTeamStats] = useState([]);
+    const [activeSorter, setActiveSorter] = useState("Total");
 
+    useEffect(() => {
+        const weekParam = props.week ? `?week=${props.week}` : ``;
+        fetch(`https://8fqfwnzfyb.execute-api.us-east-1.amazonaws.com/dev/leagues/${props.leagueId}/teams/stats${weekParam}`)
+          .then(response => response.json())
+          .then(data => {
+            setTeamStats(data); // set users in state
+          });
+      }, []); // empty array because we only run once
+    
     return (
         <Paper className={classes.root}>
             <Table className={classes.table} aria-label="simple table">
@@ -72,11 +82,11 @@ function PointsByPositionTable() {
                         {columns.map(col => <TableCell>{col}</TableCell>)}
                     </TableRow>
                 </TableHead>
-                <TableBody>
-                    {teamStats.map(row => (
-                        <TableRow key={row.name}>
+                {/* <TableBody>
+                    {teamStats.map(team => (
+                        <TableRow key={team.id}>
                             <TableCell component="th" scope="row">
-                                {row.name}
+                                {team.location + " " + team.nickname}
                             </TableCell>
                             <TableCell align="right">{row.calories}</TableCell>
                             <TableCell align="right">{row.fat}</TableCell>
@@ -84,6 +94,39 @@ function PointsByPositionTable() {
                             <TableCell align="right">{row.protein}</TableCell>
                         </TableRow>
                     ))}
+                </TableBody> */}
+                <TableBody>
+                    {teamStats.sort(sorters.find(srtr => srtr.sortBy === activeSorter).sorter).map(team => {
+                        return (
+                            <TableRow>
+                                <TableCell className={classes.tableCell}>
+                                    {team.location + " " + team.nickname}
+                                </TableCell>
+                                <TableCell className={classes.tableCell}>
+                                    {totalPointsForPosition(team.schedule[0].roster.players, "QB")}
+                                </TableCell>
+                                <TableCell className={classes.tableCell}>
+                                    {totalPointsForPosition(team.schedule[0].roster.players, "RB")}
+                                </TableCell>
+                                <TableCell className={classes.tableCell}>
+                                    {totalPointsForPosition(team.schedule[0].roster.players, "WR")}
+                                </TableCell>
+                                <TableCell className={classes.tableCell}>
+                                    {totalPointsForPosition(team.schedule[0].roster.players, "TE")}
+                                </TableCell>
+                                <TableCell className={classes.tableCell}>
+                                    {totalPointsForPosition(team.schedule[0].roster.players, "D/ST")}
+                                </TableCell>
+                                <TableCell className={classes.tableCell}>
+                                    {Math.round(sum(team.schedule[0].roster.players.filter(plyr => plyr.starter === true), "points") * 10) / 10}
+                                </TableCell>
+                                <TableCell className={classes.tableCell}>
+                                    {Math.round(sum(team.schedule[0].roster.players.filter(plyr => plyr.starter === false), "points") * 10) / 10}
+                                </TableCell>
+                            </TableRow>
+                        )
+                    }
+                    )}
                 </TableBody>
             </Table>
         </Paper>
