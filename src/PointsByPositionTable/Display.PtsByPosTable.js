@@ -5,14 +5,17 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Tooltip from '@material-ui/core/Tooltip';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        marginTop: theme.spacing.unit * 8,
-        marginLeft: theme.spacing.unit * 3,
+        marginTop: theme.spacing(8),
+        marginLeft: theme.spacing(3),
         width: '97%',
         overflowX: 'auto',
+        marginBottom: theme.spacing(3)
     },
     table: {
         minWidth: 650,
@@ -65,27 +68,48 @@ function DisplayPointsByPositionTable(props) {
     const [activeSorter, setActiveSorter] = useState("Total");
 
     useEffect(() => {
+        console.log('effects running for week: ' + props.week)
         const weekParam = props.week ? `?week=${props.week}` : ``;
         fetch(`https://8fqfwnzfyb.execute-api.us-east-1.amazonaws.com/dev/leagues/${props.leagueId}/teams/stats${weekParam}`)
-          .then(response => response.json())
-          .then(data => {
-            setTeamStats(data); // set users in state
-          });
-      }, []); // empty array because we only run once
-    
+            .then(response => response.json())
+            .then(data => {
+                setTeamStats(data); // set users in state
+            });
+    }, [props.week]);
+
     return (
         <Paper className={classes.root}>
             <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                     <TableRow>
                         <TableCell>Team</TableCell>
-                        {columns.map(col => <TableCell>{col}</TableCell>)}
+                        {
+                            columns.map(col => {
+                                return (
+                                    <TableCell key={col}>
+                                        <Tooltip
+                                            title="Sort"
+                                            placement="bottom-start"
+                                            enterDelay={300}
+                                        >
+                                            <TableSortLabel
+                                                active={activeSorter === col}
+                                                direction='desc'
+                                                onClick={() => setActiveSorter(col)}
+                                            >
+                                                {col}
+                                            </TableSortLabel>
+                                        </Tooltip>
+                                    </TableCell>
+                                )
+                            })
+                        }
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {teamStats.sort(sorters.find(srtr => srtr.sortBy === activeSorter).sorter).map(team => {
                         return (
-                            <TableRow>
+                            <TableRow key={team.id}>
                                 <TableCell className={classes.tableCell}>
                                     {team.location + " " + team.nickname}
                                 </TableCell>

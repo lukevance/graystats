@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
       <NavBar />
-      <PointsByPositionTable leagueId="286565" week="4"/>
+      <PointsByPositionTable leagueId="286565"/>
     </div>
   );
 }
