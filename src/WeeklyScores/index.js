@@ -17,8 +17,34 @@ const range = (start, end) => {
     return range;
 };
 
+const teamNameFromId = (id, teams) => {
+    if (teams.length > 0) {
+        const team = teams.find(tm => tm.id == id);
+        return `${team.location} ${team.nickname}`;
+    } else {
+        return "";
+    }
+}
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        marginTop: theme.spacing(8),
+        marginLeft: theme.spacing(3),
+        width: '97%',
+        overflowX: 'auto',
+        marginBottom: theme.spacing(3)
+    },
+    table: {
+        minWidth: 650,
+    },
+}));
+
+const columns = ["Week", "High Score", "Points", "Low Score", "Points"];
+
 function WeeklyScoresTable(props) {
+    const classes = useStyles();
     const [weekSummaries, setWeekSummaries] = useState([]);
+    const [teams, setTeams] = useState([]);
 
     useEffect(() => {
         fetch(`https://8fqfwnzfyb.execute-api.us-east-1.amazonaws.com/dev/leagues/${props.leagueId}`)
@@ -35,14 +61,13 @@ function WeeklyScoresTable(props) {
                     }
                 });
                 setWeekSummaries(weeksData); // set weekSummaries in state
+                setTeams(data.teams);
             });
     }, [props.leagueId]);
 
-    const columns = ["Week", "Team", "Score", "Rank", "Outcome"];
-    console.log(weekSummaries);
     return (
-        <Paper>
-            <Table>
+        <Paper className={classes.root}>
+            <Table className={classes.table}>
                 <TableHead>
                     <TableRow>
                         {columns.map(col => {
@@ -56,18 +81,26 @@ function WeeklyScoresTable(props) {
                 </TableHead>
                 <TableBody>
                     {weekSummaries.length > 0 ? weekSummaries.map(week => {
-                        const winners = week.matchups.map(matchup => {
-                            console.log(matchup.winner);
-                            return matchup[matchup.winner.toLowerCase()]
-                        });
+                        const winners = week.matchups.map(matchup => matchup[matchup.winner.toLowerCase()]);
                         const highScore = winners.sort((a, b) => (a.totalPoints > b.totalPoints) ? -1 : 1)[0];
-                        console.log(winners);
+                        const losers = week.matchups.map(matchup => {
+                            switch (matchup.winner) {
+                                case "HOME":
+                                    return matchup.away;
+                                case "AWAY":
+                                    return matchup.home;
+                                default:
+                                    break;
+                            };
+                        });
+                        const lowScore = losers.sort((a,b) => (a.totalPoints > b.totalPoints) ? 1 : -1)[0];
                         return (
                             <TableRow key={week.matchupPeriodId}>
                                 <TableCell>{week.matchupPeriodId}</TableCell>
-                                {/* TODO: add func for finding week high score */}
-                                <TableCell>{highScore.teamId}</TableCell>
+                                <TableCell>{teamNameFromId(highScore.teamId, teams)}</TableCell>
                                 <TableCell>{highScore.totalPoints}</TableCell>
+                                <TableCell>{teamNameFromId(lowScore.teamId, teams)}</TableCell>
+                                <TableCell>{lowScore.totalPoints}</TableCell>
                             </TableRow>
                         );
                     }): null}
