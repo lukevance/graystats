@@ -27,6 +27,8 @@ function PointsByPositionTable(props) {
             <Button
                 aria-owns={menuAnchor ? 'simple-menu' : undefined}
                 aria-haspopup="true"
+                variant="contained" 
+                // color="secondary"
                 onClick={(event) => setMenuAnchor(event.currentTarget)}
                 className={classes.menuButton}
             >

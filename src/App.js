@@ -102,6 +102,9 @@ function App() {
             }
           </Menu>
           <Switch>
+          <Route exact path="/">
+              <PointsByPositionTable leagueId="286565"/>
+            </Route>
             <Route path="/points-by-position">
               <PointsByPositionTable leagueId="286565"/>
             </Route>
