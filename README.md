@@ -1,4 +1,4 @@
-![main page screenshot](https://user-images.githubusercontent.com/13320316/67258359-7c810480-f44d-11e9-9d7a-53394a7c93d2.png)
+![main page screenshot](https://user-images.githubusercontent.com/13320316/67523196-62bd0880-f66b-11e9-809d-1b9f11cd343b.png)
 
 # Grays Almanac - Fantasy Football Statbook
 A simple app for fantasy football players to track their statistics, records, champions and more over any number of seasons.
