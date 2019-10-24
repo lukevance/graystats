@@ -1,11 +1,11 @@
 ![main page screenshot](https://user-images.githubusercontent.com/13320316/67258359-7c810480-f44d-11e9-9d7a-53394a7c93d2.png)
 
 # Grays Almanac - Fantasy Football Statbook
-A simple app that helps league managers track their fantasy football statistics, records, champions and more.
+A simple app for fantasy football players to track their statistics, records, champions and more over any number of seasons.
 
-A live version of this app can be viewed at https://lowm.provolove.com
+A live version of this app can be viewed [here](https://master.d33npw4qrrttfe.amplifyapp.com)
 
-> This is essentially version 2 of the now defunct [Fantasy FootballAnalytics app](https://github.com/lukevance/fantasy-football-analytics)
+> This is essentially version 2 of the now defunct [Fantasy Football Analytics app](https://github.com/lukevance/fantasy-football-analytics)
 
 > This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
