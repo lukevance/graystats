@@ -68,7 +68,6 @@ function DisplayPointsByPositionTable(props) {
     const [activeSorter, setActiveSorter] = useState("Total");
 
     useEffect(() => {
-        console.log('effects running for week: ' + props.week)
         const weekParam = props.week ? `?week=${props.week}` : ``;
         fetch(`https://8fqfwnzfyb.execute-api.us-east-1.amazonaws.com/dev/leagues/${props.leagueId}/teams/stats${weekParam}`)
             .then(response => response.json())
