@@ -35,21 +35,25 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const availableTableViews = [
-  {
-    title: "League Overview",
-    link: "overview"
-  },
+  // {
+  //   title: "League Overview",
+  //   link: "overview",
+  //   disabled: true
+  // },
   {
     title: "Points by Position",
-    link: "points-by-position"
+    link: "points-by-position",
+    disabled: false
   },
   {
     title: "Weekly Top Scores",
-    link: "weekly-scores"
+    link: "weekly-scores",
+    disabled: false
   },
   {
     title: "+ Add New Table",
-    link: "add-new"
+    link: "add-new",
+    disabled: true
   }
 ];
 
@@ -87,13 +91,11 @@ function App() {
                       setSelectedTable(i);
                       setAnchorEl(null);
                     }}
+                    selected={i === selectedTable}
+                    disabled={view.disabled}
+                    component={Link} to={view.link}
                   >
-                    <Link 
-                      to={view.link}
-                      style={{textDecoration: "none"}}
-                    >
-                      {view.title}
-                    </Link>
+                    {view.title}
                   </MenuItem>
                 )
               })
