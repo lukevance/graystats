@@ -33,7 +33,7 @@ function WeeklyScoresTable(props) {
                             <TableRow>
                                 <TableCell>{week.matchupPeriodId}</TableCell>
                                 {/* TODO: add func for finding week high score */}
-                                <TableCell>{weekweek.winner.toLowerCase()}</TableCell>
+                                <TableCell>{week.winner.toLowerCase()}</TableCell>
                             </TableRow>
                         );
                     })}

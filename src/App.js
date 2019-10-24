@@ -1,4 +1,10 @@
 import React, {useState} from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import {makeStyles, createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
@@ -7,6 +13,7 @@ import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 
 import NavBar from './NavBar';
 import PointsByPositionTable from './PointsByPositionTable/index';
+import WeeklyScoresTable from './WeeklyScores/index';
 
 const theme = createMuiTheme({
   palette: {
@@ -34,7 +41,7 @@ const availableTableViews = [
   },
   {
     title: "Points by Position",
-    link: "pts-by-position"
+    link: "points-by-position"
   },
   {
     title: "Weekly Top Scores",
@@ -52,7 +59,8 @@ function App() {
   const [anchorEl, setAnchorEl] = useState(null);
   
   return (
-    <div className="App">
+    <Router>
+      <div className="App">
       <MuiThemeProvider theme={theme}>
         <NavBar />
         <Button 
@@ -80,15 +88,28 @@ function App() {
                       setAnchorEl(null);
                     }}
                   >
-                    {view.title}
+                    <Link 
+                      to={view.link}
+                      style={{textDecoration: "none"}}
+                    >
+                      {view.title}
+                    </Link>
                   </MenuItem>
                 )
               })
             }
           </Menu>
-        <PointsByPositionTable leagueId="286565"/>
+          <Switch>
+            <Route path="/points-by-position">
+              <PointsByPositionTable leagueId="286565"/>
+            </Route>
+            <Route path="/weekly-scores">
+              <WeeklyScoresTable leagueId="286565"/>
+            </Route>
+          </Switch>
       </MuiThemeProvider>
-    </div>
+      </div>
+    </Router>
   );
 }
 
