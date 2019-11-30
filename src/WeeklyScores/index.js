@@ -38,7 +38,26 @@ function WeeklyScoresTable(props) {
                         matchups: data.schedule.filter(matchup => matchup.matchupPeriodId == wk)
                     }
                 });
-                setWeekSummaries(weeksData); // set weekSummaries in state
+                const weeksPlus = weeksData.map(week => {
+                    let weekPlus = week;
+                    const winners = week.matchups.map(matchup => matchup[matchup.winner.toLowerCase()]);
+                    const highScore = winners.sort((a, b) => (a.totalPoints > b.totalPoints) ? -1 : 1)[0];
+                    const losers = week.matchups.map(matchup => {
+                        switch (matchup.winner) {
+                            case "HOME":
+                                return matchup.away;
+                            case "AWAY":
+                                return matchup.home;
+                            default:
+                                break;
+                        };
+                    });
+                    const lowScore = losers.sort((a,b) => (a.totalPoints > b.totalPoints) ? 1 : -1)[0];
+                    weekPlus.highScore = highScore;
+                    weekPlus.lowScore = lowScore;
+                    return weekPlus;
+                });
+                setWeekSummaries(weeksPlus); // set weekSummaries in state
                 setTeams(data.teams);
             });
     }, [props.leagueId]);

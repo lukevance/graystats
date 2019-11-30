@@ -48,26 +48,26 @@ function DisplayWeeksHighLows (props) {
                 </TableHead>
                 <TableBody>
                     {weekSummaries.length > 0 ? weekSummaries.map(week => {
-                        const winners = week.matchups.map(matchup => matchup[matchup.winner.toLowerCase()]);
-                        const highScore = winners.sort((a, b) => (a.totalPoints > b.totalPoints) ? -1 : 1)[0];
-                        const losers = week.matchups.map(matchup => {
-                            switch (matchup.winner) {
-                                case "HOME":
-                                    return matchup.away;
-                                case "AWAY":
-                                    return matchup.home;
-                                default:
-                                    break;
-                            };
-                        });
-                        const lowScore = losers.sort((a,b) => (a.totalPoints > b.totalPoints) ? 1 : -1)[0];
+                        // const winners = week.matchups.map(matchup => matchup[matchup.winner.toLowerCase()]);
+                        // const highScore = winners.sort((a, b) => (a.totalPoints > b.totalPoints) ? -1 : 1)[0];
+                        // const losers = week.matchups.map(matchup => {
+                        //     switch (matchup.winner) {
+                        //         case "HOME":
+                        //             return matchup.away;
+                        //         case "AWAY":
+                        //             return matchup.home;
+                        //         default:
+                        //             break;
+                        //     };
+                        // });
+                        // const lowScore = losers.sort((a,b) => (a.totalPoints > b.totalPoints) ? 1 : -1)[0];
                         return (
                             <TableRow key={week.matchupPeriodId}>
                                 <TableCell>{week.matchupPeriodId}</TableCell>
-                                <TableCell>{teamNameFromId(highScore.teamId, teams)}</TableCell>
-                                <TableCell>{highScore.totalPoints}</TableCell>
-                                <TableCell>{teamNameFromId(lowScore.teamId, teams)}</TableCell>
-                                <TableCell>{lowScore.totalPoints}</TableCell>
+                                <TableCell>{teamNameFromId(week.highScore.teamId, teams)}</TableCell>
+                                <TableCell>{week.highScore.totalPoints}</TableCell>
+                                <TableCell>{teamNameFromId(week.lowScore.teamId, teams)}</TableCell>
+                                <TableCell>{week.lowScore.totalPoints}</TableCell>
                             </TableRow>
                         );
                     }): null}
