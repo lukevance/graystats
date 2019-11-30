@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 function PointsByPositionTable(props) {
     const classes = useStyles();
     // TODO: useEffects to detect what currentNFLWeek should be
-    const [currentNFLWeek, setCurrNFLWeek] = useState(13);
+    const [currentNFLWeek, setCurrNFLWeek] = useState(12);
     const [selectedWeek, setSelectedWeek] = useState(currentNFLWeek);
     const [menuAnchor, setMenuAnchor] = useState(null);
 

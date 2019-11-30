@@ -34,8 +34,8 @@ function DisplayWeeklyScoresLeaderBoard (props) {
     console.log(weekSummaries);
     const teamsWithHighLows = teams.map(team => {
         let teamPlus = team;
-        teamPlus.highScores = 
-    })
+        teamPlus.highScores = null;
+    });
     
     return (
         <Paper className={classes.root}>
