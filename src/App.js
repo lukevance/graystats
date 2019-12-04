@@ -14,6 +14,7 @@ import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import NavBar from './NavBar';
 import PointsByPositionTable from './PointsByPositionTable/index';
 import WeeklyScoresTable from './WeeklyScores/index';
+import SeasonSummary from './SeasonSummary/index';
 
 const theme = createMuiTheme({
   palette: {
@@ -41,6 +42,11 @@ const availableTableViews = [
   //   disabled: true
   // },
   {
+    title: "Season by Position",
+    link: "season-by-position",
+    disabled: false
+  },
+  {
     title: "Points by Position",
     link: "points-by-position",
     disabled: false
@@ -59,7 +65,7 @@ const availableTableViews = [
 
 function App() {
   const classes = useStyles();
-  const [selectedTable, setSelectedTable] = useState(1);
+  const [selectedTable, setSelectedTable] = useState(2);
   const [anchorEl, setAnchorEl] = useState(null);
   
   return (
@@ -103,13 +109,16 @@ function App() {
           </Menu>
           <Switch>
           <Route exact path="/">
-              <PointsByPositionTable leagueId="286565"/>
+              <WeeklyScoresTable leagueId="286565"/>
             </Route>
             <Route path="/points-by-position">
               <PointsByPositionTable leagueId="286565"/>
             </Route>
             <Route path="/weekly-scores">
               <WeeklyScoresTable leagueId="286565"/>
+            </Route>
+            <Route path="/season-by-position">
+              <SeasonSummary leagueId="286565"/>
             </Route>
           </Switch>
       </MuiThemeProvider>
