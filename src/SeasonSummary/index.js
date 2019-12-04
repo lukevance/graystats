@@ -112,27 +112,26 @@ function DisplayPointsByPositionTable(props) {
                                     {team.location + " " + team.nickname}
                                 </TableCell>
                                 <TableCell className={classes.tableCell}>
-                                    {team.schedule.map(wk => totalPointsForPosition(wk.roster.players, "QB")).reduce((total, curr) => total + curr)}
+                                    {Math.round(team.schedule.map(wk => totalPointsForPosition(wk.roster.players, "QB")).reduce((total, curr) => total + curr) * 10) / 10}
                                 </TableCell>
                                 <TableCell className={classes.tableCell}>
-                                    {team.schedule.map(wk => totalPointsForPosition(wk.roster.players, "RB")).reduce((total, curr) => total + curr)}
+                                {Math.round(team.schedule.map(wk => totalPointsForPosition(wk.roster.players, "RB")).reduce((total, curr) => total + curr) * 10) / 10}
                                 </TableCell>
                                 <TableCell className={classes.tableCell}>
-                                    {team.schedule.map(wk => totalPointsForPosition(wk.roster.players, "WR")).reduce((total, curr) => total + curr)}
+                                {Math.round(team.schedule.map(wk => totalPointsForPosition(wk.roster.players, "WR")).reduce((total, curr) => total + curr) * 10) / 10}
                                 </TableCell>
                                 <TableCell className={classes.tableCell}>
-                                    {team.schedule.map(wk => totalPointsForPosition(wk.roster.players, "QB")).reduce((total, curr) => total + curr)}
+                                {Math.round(team.schedule.map(wk => totalPointsForPosition(wk.roster.players, "TE")).reduce((total, curr) => total + curr) * 10) / 10}
                                 </TableCell>
                                 <TableCell className={classes.tableCell}>
-                                    {team.schedule.map(wk => totalPointsForPosition(wk.roster.players, "D/ST")).reduce((total, curr) => total + curr)}
-                                </TableCell>
-                                {/* <TableCell className={classes.tableCell}>
-                                    {team.schedule.map(wk => wk.roster.players.filter(plyr => plyr.starter === true), "points").reduce((total, curr) => total + curr)}
-                                    {Math.round(sum(team.schedule[0].roster.players.filter(plyr => plyr.starter === true), "points") * 10) / 10}
+                                {Math.round(team.schedule.map(wk => totalPointsForPosition(wk.roster.players, "D/ST")).reduce((total, curr) => total + curr) * 10) / 10}
                                 </TableCell>
                                 <TableCell className={classes.tableCell}>
-                                    {Math.round(sum(team.schedule[0].roster.players.filter(plyr => plyr.starter === false), "points") * 10) / 10}
-                                </TableCell> */}
+                                    {Math.round(team.schedule.map(wk => sum(wk.roster.players.filter(plyr => plyr.starter === true), "points")).reduce((total, curr) => total + curr)  * 10) / 10}
+                                </TableCell>
+                                <TableCell className={classes.tableCell}>
+                                    {Math.round(team.schedule.map(wk => sum(wk.roster.players.filter(plyr => plyr.starter === false), "points")).reduce((total, curr) => total + curr)  * 10) / 10}
+                                </TableCell>
                             </TableRow>
                         )
                     }
