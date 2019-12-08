@@ -31,7 +31,7 @@ const columns = ["Team", "High Score Finishes", "Highest", "Low Score Finishes",
 function DisplayWeeklyScoresLeaderBoard (props) {
     const classes = useStyles();
     const {weekSummaries, teams, teamNameFromId} = props;
-    console.log(weekSummaries);
+    // start building leaderboard
     const teamsWithHighLows = teams.map(team => {
         let teamPlus = team;
         teamPlus.highScores = null;
@@ -54,7 +54,7 @@ function DisplayWeeklyScoresLeaderBoard (props) {
                 </TableHead>
                 <TableBody>
                     {teams.map(team => {
-                        const highScores = weekSummaries.filter(wk => wk.highScore)
+                        const highScores = weekSummaries.filter(wk => wk.highScore);
                         return (
                             <TableRow key={team.id}>
                                 <TableCell>{teamNameFromId(team.id, teams)}</TableCell>

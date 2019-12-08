@@ -3,22 +3,7 @@ import React, { useState, useEffect } from 'react';
 import WeeklySummaries from './Weeks';
 import Leaderboard from './Leaderboard';
 
-const range = (start, end) => {
-    let range = [];
-    for (let i = start; i <= end; i++){
-        range.push(i);
-    }
-    return range;
-};
-
-const teamNameFromId = (id, teams) => {
-    if (teams.length > 0) {
-        const team = teams.find(tm => tm.id == id);
-        return `${team.location} ${team.nickname}`;
-    } else {
-        return "";
-    }
-}
+import {range, teamNameFromId} from '../util';
 
 function WeeklyScoresTable(props) {
     const [weekSummaries, setWeekSummaries] = useState([]);

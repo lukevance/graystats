@@ -4,8 +4,25 @@ module.exports.totalPointsForPosition = (players, position) => {
     return totalPoints;
 };
 
+module.exports.teamNameFromId = (id, teams) => {
+    if (teams.length > 0) {
+        const team = teams.find(tm => tm.id == id);
+        return `${team.location} ${team.nickname}`;
+    } else {
+        return "";
+    }
+};
+
 module.exports.sum = (items, prop) => {
     return items.reduce((a, b) => {
         return a + b[prop];
     }, 0);
+};
+
+module.exports.range = (start, end) => {
+    let range = [];
+    for (let i = start; i <= end; i++){
+        range.push(i);
+    }
+    return range;
 };
