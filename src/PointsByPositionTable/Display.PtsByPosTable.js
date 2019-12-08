@@ -9,6 +9,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 
+import {totalPointsForPosition, sum} from '../util';
+
 const useStyles = makeStyles(theme => ({
     root: {
         marginTop: theme.spacing(8),
@@ -23,18 +25,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const columns = ["QB", "RB", "WR", "TE", "D/ST", "Total", "Bench"];
-
-const sum = (items, prop) => {
-    return items.reduce((a, b) => {
-        return a + b[prop];
-    }, 0);
-};
-
-const totalPointsForPosition = (players, position) => {
-    const positionPlayers = players.filter(plyr => plyr.position === position && plyr.starter === true);
-    const totalPoints = Math.round(sum(positionPlayers, "points") * 10) / 10;
-    return totalPoints;
-};
 
 const sorters = columns.map(col => {
     switch (col) {
