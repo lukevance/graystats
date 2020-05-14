@@ -59,7 +59,7 @@ function DisplayPointsByPositionTable(props) {
 
     useEffect(() => {
         const weekParam = props.week ? `?week=${props.week}` : ``;
-        fetch(`https://8fqfwnzfyb.execute-api.us-east-1.amazonaws.com/dev/leagues/${props.leagueId}/teams/stats${weekParam}`)
+        fetch(`${process.env.REACT_APP_BASE_URL}/leagues/${props.leagueId}/teams/stats${weekParam}`)
             .then(response => response.json())
             .then(data => {
                 setTeamStats(data); // set users in state

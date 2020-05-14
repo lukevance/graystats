@@ -58,7 +58,7 @@ function DisplayPointsByPositionTable(props) {
     const [activeSorter, setActiveSorter] = useState("Total");
 
     useEffect(() => {
-        fetch(`https://8fqfwnzfyb.execute-api.us-east-1.amazonaws.com/dev/leagues/${props.leagueId}/teams/season-stats`)
+        fetch(`${process.env.REACT_APP_BASE_URL}/leagues/${props.leagueId}/teams/season-stats`)
             .then(response => response.json())
             .then(data => {
                 setTeamStats(data); // set users in state
