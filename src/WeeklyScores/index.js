@@ -34,7 +34,7 @@ function WeeklyScoresTable(props) {
                             case "AWAY":
                                 return matchup.home;
                             default:
-                                break;
+                                return null;
                         };
                     });
                     const lowScore = losers.sort((a,b) => (a.totalPoints > b.totalPoints) ? 1 : -1)[0];

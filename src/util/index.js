@@ -12,7 +12,7 @@ module.exports.totalPointsForPosition = (players, position) => {
 
 module.exports.teamNameFromId = (id, teams) => {
     if (teams.length > 0) {
-        const team = teams.find(tm => tm.id == id);
+        const team = teams.find(tm => tm.id == id); // TODO: convert both ids to string or num
         return `${team.location} ${team.nickname}`;
     } else {
         return "";

@@ -64,7 +64,7 @@ function DisplayPointsByPositionTable(props) {
             .then(data => {
                 setTeamStats(data); // set users in state
             });
-    }, [props.week]);
+    }, [props.week, props.leagueId]);
 
     return (
         <Paper className={classes.root}>
