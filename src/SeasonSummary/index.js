@@ -66,6 +66,7 @@ function DisplayPointsByPositionTable(props) {
         fetch(`${process.env.REACT_APP_BASE_URL}/leagues/${props.leagueId}/teams/season-stats`)
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 setTeamStats(data); // set users in state
             });
     }, [props.leagueId]);
