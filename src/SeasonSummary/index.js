@@ -29,6 +29,22 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+const seasonTotalPtsForPosition = (teamData, position) => {
+    return teamData.schedule
+        .map(wk => totalPointsForPosition(wk.roster.players, position))
+        .reduce((total, curr) => total + curr);
+};
+
+const seasonTotalPtsStartBench = (teamData, starter = true) => {
+    return teamData.schedule
+        .map(wk => sum(wk.roster
+            .players
+            .filter(plyr => plyr.starter == starter),
+            "points")
+        )
+        .reduce((total, curr) => total + curr);
+};
+
 const columns = ["QB", "RB", "WR", "TE", "D/ST", "Total", "Bench"];
 
 const sorters = columns.map(col => {
@@ -37,21 +53,21 @@ const sorters = columns.map(col => {
             return {
                 sortBy: col,
                 sorter: (a, b) => {
-                    return sum(b.schedule[0].roster.players.filter(plyr => plyr.starter === true), "points") - sum(a.schedule[0].roster.players.filter(plyr => plyr.starter === true), "points");
+                    return seasonTotalPtsStartBench(b) - seasonTotalPtsStartBench(a);
                 }
             }
         case "Bench":
             return {
                 sortBy: col,
                 sorter: (a, b) => {
-                    return sum(b.schedule[0].roster.players.filter(plyr => plyr.starter === false), "points") - sum(a.schedule[0].roster.players.filter(plyr => plyr.starter === false), "points");
+                    return seasonTotalPtsStartBench(b, false) - seasonTotalPtsStartBench(a, false);
                 }
             }
         default:
             return {
                 sortBy: col,
                 sorter: (a, b) => {
-                    return totalPointsForPosition(b.schedule[0].roster.players, col) - totalPointsForPosition(a.schedule[0].roster.players, col);
+                    return seasonTotalPtsForPosition(b, col) - seasonTotalPtsForPosition(a, col);
                 }
             }
     }
@@ -106,13 +122,18 @@ function DisplayPointsByPositionTable(props) {
                 </TableHead>
                 <TableBody>
                     {teamStats.sort(sorters.find(srtr => srtr.sortBy === activeSorter).sorter).map(team => {
+                        console.log(activeSorter);
+                        if (team.id === 7){
+                            console.log(seasonTotalPtsStartBench(team));
+                            console.log(seasonTotalPtsStartBench(team, true));
+                        }
                         return (
                             <TableRow key={team.id}>
                                 <TableCell className={classes.tableCell}>
                                     {team.location + " " + team.nickname}
                                 </TableCell>
                                 <TableCell className={classes.tableCell}>
-                                    {Math.round(team.schedule.map(wk => totalPointsForPosition(wk.roster.players, "QB")).reduce((total, curr) => total + curr) * 10) / 10}
+                                    {Math.round(seasonTotalPtsForPosition(team, "QB") * 10) / 10}
                                 </TableCell>
                                 <TableCell className={classes.tableCell}>
                                 {Math.round(team.schedule.map(wk => totalPointsForPosition(wk.roster.players, "RB")).reduce((total, curr) => total + curr) * 10) / 10}
