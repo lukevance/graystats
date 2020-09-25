@@ -49,11 +49,11 @@ function WeeklyScoresTable(props) {
 
     return (
         <div>
-            <Leaderboard 
+            {/* <Leaderboard 
                 weekSummaries={weekSummaries} 
                 teamNameFromId={teamNameFromId}
                 teams={teams}
-            />
+            /> */}
             <WeeklySummaries 
                 weekSummaries={weekSummaries} 
                 teamNameFromId={teamNameFromId}

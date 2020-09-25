@@ -73,7 +73,9 @@ function App() {
       <div className="App">
       <MuiThemeProvider theme={theme}>
         <NavBar />
-        <Button 
+        <WeeklyScoresTable leagueId="286565"/> 
+        <SeasonSummary leagueId="286565"/>
+        {/* <Button 
               className={classes.mainNavBtn}
               variant="contained" 
               color="secondary"
@@ -109,7 +111,7 @@ function App() {
           </Menu>
           <Switch>
           <Route exact path="/">
-              <WeeklyScoresTable leagueId="286565"/>
+              <WeeklyScoresTable leagueId="286565"/> 
             </Route>
             <Route path="/points-by-position">
               <PointsByPositionTable leagueId="286565"/>
@@ -120,7 +122,7 @@ function App() {
             <Route path="/season-by-position">
               <SeasonSummary leagueId="286565"/>
             </Route>
-          </Switch>
+          </Switch> */}
       </MuiThemeProvider>
       </div>
     </Router>

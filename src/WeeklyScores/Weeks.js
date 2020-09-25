@@ -33,7 +33,7 @@ function DisplayWeeksHighLows (props) {
     const {weekSummaries, teams, teamNameFromId} = props;
     return (
         <Paper className={classes.root}>
-            <Typography className={classes.heading} variant="h6">Summary by Week</Typography>
+            <Typography className={classes.heading} variant="h6">Winners & Losers</Typography>
             <Table className={classes.table}>
                 <TableHead>
                     <TableRow>

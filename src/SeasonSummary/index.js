@@ -6,6 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 
@@ -22,6 +23,10 @@ const useStyles = makeStyles(theme => ({
     table: {
         minWidth: 650,
     },
+    heading: {
+        marginTop: theme.spacing(2),
+        marginLeft: theme.spacing(2),
+    }
 }));
 
 const columns = ["QB", "RB", "WR", "TE", "D/ST", "Total", "Bench"];
@@ -67,6 +72,7 @@ function DisplayPointsByPositionTable(props) {
 
     return (
         <Paper className={classes.root}>
+            <Typography className={classes.heading} variant="h6">Total Points x Position</Typography>
             <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                     <TableRow>
