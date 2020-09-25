@@ -64,7 +64,10 @@ function DisplayPointsByPositionTable(props) {
 
     useEffect(() => {
         fetch(`${process.env.REACT_APP_BASE_URL}/leagues/${props.leagueId}/teams/season-stats`)
-            .then(response => response.json())
+            .then(response => {
+                console.log(response);
+                return response.json()
+            })
             .then(data => {
                 console.log(data);
                 setTeamStats(data); // set users in state
