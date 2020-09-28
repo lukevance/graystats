@@ -1,29 +1,32 @@
 import React, {useState} from 'react';
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
+  // Switch,
+  // Route,
+  // Link
 } from "react-router-dom";
 import {makeStyles, createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
+// import Button from '@material-ui/core/Button';
+// import Menu from '@material-ui/core/Menu';
+// import MenuItem from '@material-ui/core/MenuItem';
+// import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 
 import NavBar from './NavBar';
-import PointsByPositionTable from './PointsByPositionTable/index';
+// import PointsByPositionTable from './PointsByPositionTable/index';
 import WeeklyScoresTable from './WeeklyScores/index';
 import SeasonSummary from './SeasonSummary/index';
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#4a148c',
+      main: '#774AAD',
     },
     secondary: {
       main: '#774AAD',
     },
+    lightPurple: {
+      main: '#B391DC'
+    }
   },
 });
 
@@ -35,33 +38,33 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const availableTableViews = [
-  // {
-  //   title: "League Overview",
-  //   link: "overview",
-  //   disabled: true
-  // },
-  {
-    title: "Season by Position",
-    link: "season-by-position",
-    disabled: false
-  },
-  {
-    title: "Points by Position",
-    link: "points-by-position",
-    disabled: false
-  },
-  {
-    title: "Weekly Top Scores",
-    link: "weekly-scores",
-    disabled: false
-  },
-  {
-    title: "+ Add New Table",
-    link: "add-new",
-    disabled: true
-  }
-];
+// const availableTableViews = [
+//   {
+//     title: "League Overview",
+//     link: "overview",
+//     disabled: true
+//   },
+//   {
+//     title: "Season by Position",
+//     link: "season-by-position",
+//     disabled: false
+//   },
+//   {
+//     title: "Points by Position",
+//     link: "points-by-position",
+//     disabled: false
+//   },
+//   {
+//     title: "Weekly Top Scores",
+//     link: "weekly-scores",
+//     disabled: false
+//   },
+//   {
+//     title: "+ Add New Table",
+//     link: "add-new",
+//     disabled: true
+//   }
+// ];
 
 function App() {
   const classes = useStyles();

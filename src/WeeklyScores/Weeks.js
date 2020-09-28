@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Avatar from '@material-ui/core/Avatar';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -61,10 +62,16 @@ function DisplayWeeksHighLows (props) {
                         //     };
                         // });
                         // const lowScore = losers.sort((a,b) => (a.totalPoints > b.totalPoints) ? 1 : -1)[0];
+                        const highScoreTeam = teams.find(tm => tm.id == week.highScore.teamId);
                         return (
                             <TableRow key={week.matchupPeriodId}>
                                 <TableCell>{week.matchupPeriodId}</TableCell>
-                                <TableCell>{teamNameFromId(week.highScore.teamId, teams)}</TableCell>
+                                {/* <TableCell>
+                                    <Avatar src={highScoreTeam ? highScoreTeam.logo : null} className={classes.smallAvatar} />
+                                </TableCell> */}
+                                <TableCell>
+                                    {teamNameFromId(week.highScore.teamId, teams)}
+                                    </TableCell>
                                 <TableCell>{week.highScore.totalPoints}</TableCell>
                                 <TableCell>{teamNameFromId(week.lowScore.teamId, teams)}</TableCell>
                                 <TableCell>{week.lowScore.totalPoints}</TableCell>

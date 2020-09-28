@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Avatar from '@material-ui/core/Avatar';
+// import AvatarGroup from '@material-ui/core/AvatarGroup';
+import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -26,7 +29,15 @@ const useStyles = makeStyles(theme => ({
     heading: {
         marginTop: theme.spacing(2),
         marginLeft: theme.spacing(2),
+    },
+    smallAvatar: {
+        width: theme.spacing(4),
+        height: theme.spacing(4),
+    },
+    selectedRow: {
+        background: "#8F78AD"
     }
+
 }));
 
 const seasonTotalPtsForPosition = (teamData, position) => {
@@ -77,6 +88,7 @@ function DisplayPointsByPositionTable(props) {
     const classes = useStyles();
     const [teamStats, setTeamStats] = useState([]);
     const [activeSorter, setActiveSorter] = useState("Total");
+    const [selectedRow, setSelectedRow] = useState(-1);
 
     useEffect(() => {
         fetch(`${process.env.REACT_APP_BASE_URL}/leagues/${props.leagueId}/teams/season-stats`)
@@ -93,9 +105,17 @@ function DisplayPointsByPositionTable(props) {
     return (
         <Paper className={classes.root}>
             <Typography className={classes.heading} variant="h6">Total Points x Position</Typography>
+            {/* <AvatarGroup>
+                {teamData.map(team => {
+                    return (
+                        <Avatar></Avatar>
+                    )
+                })}
+            </AvatarGroup> */}
             <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                     <TableRow>
+                        <TableCell />
                         <TableCell>Team</TableCell>
                         {
                             columns.map(col => {
@@ -122,14 +142,13 @@ function DisplayPointsByPositionTable(props) {
                 </TableHead>
                 <TableBody>
                     {teamStats.sort(sorters.find(srtr => srtr.sortBy === activeSorter).sorter).map(team => {
-                        console.log(activeSorter);
-                        if (team.id === 7){
-                            console.log(seasonTotalPtsStartBench(team));
-                            console.log(seasonTotalPtsStartBench(team, true));
-                        }
                         return (
-                            <TableRow key={team.id}>
-                                <TableCell className={classes.tableCell}>
+                            // <TableRow key={team.id} className={team.id === selectedRow ? classes.selectedRow : null}>
+                            <TableRow key={team.id} hover={true} selected={team.id === selectedRow} onClick={() => setSelectedRow(team.id)}>
+                                <TableCell>
+                                    <Avatar src={team.logo} className={classes.smallAvatar} />
+                                  </TableCell>
+                                <TableCell className={classes.tableCell} onClick={() => setSelectedRow(team.id)}>
                                     {team.location + " " + team.nickname}
                                 </TableCell>
                                 <TableCell className={classes.tableCell}>
