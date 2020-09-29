@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 function PointsByPositionTable(props) {
     const classes = useStyles();
     // TODO: useEffects to detect what currentNFLWeek should be
-    const [currentNFLWeek, setCurrNFLWeek] = useState(7);
+    const [currentNFLWeek] = useState(13);
     const [selectedWeek, setSelectedWeek] = useState(currentNFLWeek);
     const [menuAnchor, setMenuAnchor] = useState(null);
 

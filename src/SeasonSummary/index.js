@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Avatar from '@material-ui/core/Avatar';
+// import AvatarGroup from '@material-ui/core/AvatarGroup';
+import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 
@@ -22,7 +26,35 @@ const useStyles = makeStyles(theme => ({
     table: {
         minWidth: 650,
     },
+    heading: {
+        marginTop: theme.spacing(2),
+        marginLeft: theme.spacing(2),
+    },
+    smallAvatar: {
+        width: theme.spacing(4),
+        height: theme.spacing(4),
+    },
+    selectedRow: {
+        background: "#8F78AD"
+    }
+
 }));
+
+const seasonTotalPtsForPosition = (teamData, position) => {
+    return teamData.schedule
+        .map(wk => totalPointsForPosition(wk.roster.players, position))
+        .reduce((total, curr) => total + curr);
+};
+
+const seasonTotalPtsStartBench = (teamData, starter = true) => {
+    return teamData.schedule
+        .map(wk => sum(wk.roster
+            .players
+            .filter(plyr => plyr.starter == starter),
+            "points")
+        )
+        .reduce((total, curr) => total + curr);
+};
 
 const columns = ["QB", "RB", "WR", "TE", "D/ST", "Total", "Bench"];
 
@@ -32,21 +64,21 @@ const sorters = columns.map(col => {
             return {
                 sortBy: col,
                 sorter: (a, b) => {
-                    return sum(b.schedule[0].roster.players.filter(plyr => plyr.starter === true), "points") - sum(a.schedule[0].roster.players.filter(plyr => plyr.starter === true), "points");
+                    return seasonTotalPtsStartBench(b) - seasonTotalPtsStartBench(a);
                 }
             }
         case "Bench":
             return {
                 sortBy: col,
                 sorter: (a, b) => {
-                    return sum(b.schedule[0].roster.players.filter(plyr => plyr.starter === false), "points") - sum(a.schedule[0].roster.players.filter(plyr => plyr.starter === false), "points");
+                    return seasonTotalPtsStartBench(b, false) - seasonTotalPtsStartBench(a, false);
                 }
             }
         default:
             return {
                 sortBy: col,
                 sorter: (a, b) => {
-                    return totalPointsForPosition(b.schedule[0].roster.players, col) - totalPointsForPosition(a.schedule[0].roster.players, col);
+                    return seasonTotalPtsForPosition(b, col) - seasonTotalPtsForPosition(a, col);
                 }
             }
     }
@@ -56,21 +88,34 @@ function DisplayPointsByPositionTable(props) {
     const classes = useStyles();
     const [teamStats, setTeamStats] = useState([]);
     const [activeSorter, setActiveSorter] = useState("Total");
+    const [selectedRow, setSelectedRow] = useState(-1);
 
     useEffect(() => {
-        const weekParam = props.week ? `?week=${props.week}` : ``;
-        fetch(`${process.env.REACT_APP_BASE_URL}/leagues/${props.leagueId}/teams/stats${weekParam}`)
-            .then(response => response.json())
+        fetch(`${process.env.REACT_APP_BASE_URL}/leagues/${props.leagueId}/teams/season-stats`)
+            .then(response => {
+                console.log(response);
+                return response.json()
+            })
             .then(data => {
+                console.log(data);
                 setTeamStats(data); // set users in state
             });
-    }, [props.week, props.leagueId]);
+    }, [props.leagueId]);
 
     return (
         <Paper className={classes.root}>
+            <Typography className={classes.heading} variant="h6">Total Points x Position</Typography>
+            {/* <AvatarGroup>
+                {teamData.map(team => {
+                    return (
+                        <Avatar></Avatar>
+                    )
+                })}
+            </AvatarGroup> */}
             <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                     <TableRow>
+                        <TableCell />
                         <TableCell>Team</TableCell>
                         {
                             columns.map(col => {
@@ -98,30 +143,34 @@ function DisplayPointsByPositionTable(props) {
                 <TableBody>
                     {teamStats.sort(sorters.find(srtr => srtr.sortBy === activeSorter).sorter).map(team => {
                         return (
-                            <TableRow key={team.id}>
-                                <TableCell className={classes.tableCell}>
+                            // <TableRow key={team.id} className={team.id === selectedRow ? classes.selectedRow : null}>
+                            <TableRow key={team.id} hover={true} selected={team.id === selectedRow} onClick={() => setSelectedRow(team.id)}>
+                                <TableCell>
+                                    <Avatar src={team.logo} className={classes.smallAvatar} />
+                                  </TableCell>
+                                <TableCell className={classes.tableCell} onClick={() => setSelectedRow(team.id)}>
                                     {team.location + " " + team.nickname}
                                 </TableCell>
                                 <TableCell className={classes.tableCell}>
-                                    {totalPointsForPosition(team.schedule[0].roster.players, "QB")}
+                                    {Math.round(seasonTotalPtsForPosition(team, "QB") * 10) / 10}
                                 </TableCell>
                                 <TableCell className={classes.tableCell}>
-                                    {totalPointsForPosition(team.schedule[0].roster.players, "RB")}
+                                {Math.round(team.schedule.map(wk => totalPointsForPosition(wk.roster.players, "RB")).reduce((total, curr) => total + curr) * 10) / 10}
                                 </TableCell>
                                 <TableCell className={classes.tableCell}>
-                                    {totalPointsForPosition(team.schedule[0].roster.players, "WR")}
+                                {Math.round(team.schedule.map(wk => totalPointsForPosition(wk.roster.players, "WR")).reduce((total, curr) => total + curr) * 10) / 10}
                                 </TableCell>
                                 <TableCell className={classes.tableCell}>
-                                    {totalPointsForPosition(team.schedule[0].roster.players, "TE")}
+                                {Math.round(team.schedule.map(wk => totalPointsForPosition(wk.roster.players, "TE")).reduce((total, curr) => total + curr) * 10) / 10}
                                 </TableCell>
                                 <TableCell className={classes.tableCell}>
-                                    {totalPointsForPosition(team.schedule[0].roster.players, "D/ST")}
+                                {Math.round(team.schedule.map(wk => totalPointsForPosition(wk.roster.players, "D/ST")).reduce((total, curr) => total + curr) * 10) / 10}
                                 </TableCell>
                                 <TableCell className={classes.tableCell}>
-                                    {Math.round(sum(team.schedule[0].roster.players.filter(plyr => plyr.starter === true), "points") * 10) / 10}
+                                    {Math.round(team.schedule.map(wk => sum(wk.roster.players.filter(plyr => plyr.starter === true), "points")).reduce((total, curr) => total + curr)  * 10) / 10}
                                 </TableCell>
                                 <TableCell className={classes.tableCell}>
-                                    {Math.round(sum(team.schedule[0].roster.players.filter(plyr => plyr.starter === false), "points") * 10) / 10}
+                                    {Math.round(team.schedule.map(wk => sum(wk.roster.players.filter(plyr => plyr.starter === false), "points")).reduce((total, curr) => total + curr)  * 10) / 10}
                                 </TableCell>
                             </TableRow>
                         )
