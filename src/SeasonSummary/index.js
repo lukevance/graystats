@@ -91,7 +91,8 @@ function DisplayPointsByPositionTable(props) {
     const [selectedRow, setSelectedRow] = useState(-1);
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_BASE_URL}/leagues/${props.leagueId}/teams/season-stats`)
+        // fetch(`${process.env.REACT_APP_BASE_URL}/leagues/${props.leagueId}/teams/season-stats`)
+        fetch(`https://8fqfwnzfyb.execute-api.us-east-1.amazonaws.com/dev/leagues/${props.leagueId}/teams/season-stats`)
             .then(response => {
                 console.log(response);
                 return response.json()
