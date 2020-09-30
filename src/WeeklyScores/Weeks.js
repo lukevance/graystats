@@ -24,10 +24,14 @@ const useStyles = makeStyles(theme => ({
     heading: {
         marginTop: theme.spacing(2),
         marginLeft: theme.spacing(2),
-    }
+    },
+    smallAvatar: {
+        width: theme.spacing(4),
+        height: theme.spacing(4),
+    },
 }));
 
-const columns = ["Week", "High Score", "Points", "Low Score", "Points"];
+const columns = ["Week", "", "High Score", "Points", "", "Low Score", "Points"];
 
 function DisplayWeeksHighLows (props) {
     const classes = useStyles();
@@ -62,17 +66,21 @@ function DisplayWeeksHighLows (props) {
                         //     };
                         // });
                         // const lowScore = losers.sort((a,b) => (a.totalPoints > b.totalPoints) ? 1 : -1)[0];
-                        const highScoreTeam = teams.find(tm => tm.id == week.highScore.teamId);
+                        const highScoreTeam = teams.find(tm => tm.id === week.highScore.teamId);
+                        const lowScoreTeam = teams.find(tm => tm.id === week.lowScore.teamId);
                         return (
                             <TableRow key={week.matchupPeriodId}>
                                 <TableCell>{week.matchupPeriodId}</TableCell>
-                                {/* <TableCell>
+                                <TableCell>
                                     <Avatar src={highScoreTeam ? highScoreTeam.logo : null} className={classes.smallAvatar} />
-                                </TableCell> */}
+                                </TableCell>
                                 <TableCell>
                                     {teamNameFromId(week.highScore.teamId, teams)}
-                                    </TableCell>
+                                </TableCell>
                                 <TableCell>{week.highScore.totalPoints}</TableCell>
+                                <TableCell>
+                                    <Avatar src={lowScoreTeam ? lowScoreTeam.logo : null} className={classes.smallAvatar} />
+                                </TableCell>
                                 <TableCell>{teamNameFromId(week.lowScore.teamId, teams)}</TableCell>
                                 <TableCell>{week.lowScore.totalPoints}</TableCell>
                             </TableRow>

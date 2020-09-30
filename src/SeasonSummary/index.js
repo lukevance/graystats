@@ -50,10 +50,8 @@ const seasonTotalPtsForPosition = (teamData, position) => {
 
 const seasonTotalPtsStartBench = (teamData, starter = true) => {
     return teamData.schedule
-        .map(wk => sum(wk.roster
-            .players
-            .filter(plyr => plyr.starter == starter),
-            "points")
+        .map(wk => sum(wk.roster.players
+            .filter(plyr => plyr.starter === starter), "points")
         )
         .reduce((total, curr) => total + curr);
 };
@@ -108,7 +106,6 @@ function DisplayPointsByPositionTable(props) {
     return (
         <Paper className={classes.root}>
             <Typography className={classes.heading} variant="h6">Points by Position</Typography>
-            {/* <Typography className={classes.subHeading}>Aggregated points scored by starters at each position over the course of the season.</Typography> */}
             <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                     <TableRow>
