@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import WeeklySummaries from './Weeks';
-import Leaderboard from './Leaderboard';
+// import Leaderboard from './Leaderboard';
 
 import {range, teamNameFromId} from '../util';
 
@@ -10,7 +10,8 @@ function WeeklyScoresTable(props) {
     const [teams, setTeams] = useState([]);
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_BASE_URL}/leagues/${props.leagueId}`)
+        // fetch(`${process.env.REACT_APP_BASE_URL}/leagues/${props.leagueId}`)
+        fetch(`https://8fqfwnzfyb.execute-api.us-east-1.amazonaws.com/dev/leagues/${props.leagueId}`)
             .then(response => response.json())
             .then(data => {
                 // pull out active week and ensure it's a number

@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
         marginLeft: theme.spacing(3),
         marginRight: theme.spacing(3),
         marginBottom: theme.spacing(3),
-        width: '97%',
+        maxWidth: '97%',
         overflowX: 'auto',
     },
     table: {
@@ -34,7 +34,7 @@ function DisplayWeeksHighLows (props) {
     const {weekSummaries, teams, teamNameFromId} = props;
     return (
         <Paper className={classes.root}>
-            <Typography className={classes.heading} variant="h6">Winners & Losers</Typography>
+            <Typography className={classes.heading} variant="h6">Weekly Prizes</Typography>
             <Table className={classes.table}>
                 <TableHead>
                     <TableRow>

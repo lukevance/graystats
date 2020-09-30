@@ -67,9 +67,9 @@ const useStyles = makeStyles(theme => ({
 // ];
 
 function App() {
-  const classes = useStyles();
-  const [selectedTable, setSelectedTable] = useState(2);
-  const [anchorEl, setAnchorEl] = useState(null);
+  // const classes = useStyles();
+  // const [selectedTable, setSelectedTable] = useState(2);
+  // const [anchorEl, setAnchorEl] = useState(null);
   
   return (
     <Router>

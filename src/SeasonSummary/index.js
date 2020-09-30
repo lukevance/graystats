@@ -19,12 +19,14 @@ const useStyles = makeStyles(theme => ({
     root: {
         marginTop: theme.spacing(8),
         marginLeft: theme.spacing(3),
-        width: '97%',
+        marginRight: theme.spacing(3),
+        maxWidth: '97%',
         overflowX: 'auto',
         marginBottom: theme.spacing(3)
     },
     table: {
         minWidth: 650,
+        marginTop: theme.spacing(2),
     },
     heading: {
         marginTop: theme.spacing(2),
@@ -91,7 +93,8 @@ function DisplayPointsByPositionTable(props) {
     const [selectedRow, setSelectedRow] = useState(-1);
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_BASE_URL}/leagues/${props.leagueId}/teams/season-stats`)
+        // fetch(`${process.env.REACT_APP_BASE_URL}/leagues/${props.leagueId}/teams/season-stats`)
+        fetch(`https://8fqfwnzfyb.execute-api.us-east-1.amazonaws.com/dev/leagues/${props.leagueId}/teams/season-stats`)
             .then(response => {
                 console.log(response);
                 return response.json()
@@ -104,14 +107,8 @@ function DisplayPointsByPositionTable(props) {
 
     return (
         <Paper className={classes.root}>
-            <Typography className={classes.heading} variant="h6">Total Points x Position</Typography>
-            {/* <AvatarGroup>
-                {teamData.map(team => {
-                    return (
-                        <Avatar></Avatar>
-                    )
-                })}
-            </AvatarGroup> */}
+            <Typography className={classes.heading} variant="h6">Points by Position</Typography>
+            {/* <Typography className={classes.subHeading}>Aggregated points scored by starters at each position over the course of the season.</Typography> */}
             <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                     <TableRow>
