@@ -7,12 +7,17 @@ import Button from '@material-ui/core/Button';
 // import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Hidden from '@material-ui/core/Hidden';
+import withWidth from '@material-ui/core/withWidth';
+
+import FootballIcon from '@material-ui/icons/SportsFootball';
 
 // import MenuDrawer from './components/MenuDrawer';
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+    maxHeight: theme.spacing(4),
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -20,6 +25,7 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1,
+    marginLeft: theme.spacing(2),
   },
 }));
 
@@ -34,15 +40,30 @@ function ButtonAppBar() {
           {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuDrawer />
           </IconButton> */}
-          <Typography variant="h6" className={classes.title}>
-            Fantasy Football Statbook
-          </Typography>
-          <Button 
-            color="inherit"
-            onClick={event => setAnchorEl(event.currentTarget)}
-          >
-            League of Ordinary Working Men
-          </Button>
+          <FootballIcon />
+          <Hidden xsDown>
+            <Typography variant="h6" className={classes.title}>
+              Fantasy Football Statbook
+            </Typography>
+            <Button 
+              color="inherit"
+              onClick={event => setAnchorEl(event.currentTarget)}
+            >
+              League of Ordinary Working Men
+            </Button>
+          </Hidden>
+          <Hidden smUp>
+            <Typography variant="h6" className={classes.title}>
+              Statbook
+            </Typography>
+            <Button 
+              color="inherit"
+              onClick={event => setAnchorEl(event.currentTarget)}
+            >
+              LOWM
+            </Button>
+          </Hidden>
+          
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
@@ -67,4 +88,4 @@ function ButtonAppBar() {
   );
 }
 
-export default ButtonAppBar
+export default withWidth()(ButtonAppBar);
