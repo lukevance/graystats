@@ -11,7 +11,7 @@ function WeeklyScoresTable(props) {
 
     useEffect(() => {
         // fetch(`${process.env.REACT_APP_BASE_URL}/leagues/${props.leagueId}`)
-        fetch(`https://8fqfwnzfyb.execute-api.us-east-1.amazonaws.com/dev/leagues/${props.leagueId}`)
+        fetch(`https://8fqfwnzfyb.execute-api.us-east-1.amazonaws.com/dev/leagues/${props.leagueId}?season=2021`)
             .then(response => response.json())
             .then(data => {
                 // pull out active week and ensure it's a number
