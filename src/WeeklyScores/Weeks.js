@@ -38,7 +38,7 @@ function DisplayWeeksHighLows (props) {
     const {weekSummaries, teams, teamNameFromId} = props;
     return (
         <Paper className={classes.root}>
-            <Typography className={classes.heading} variant="h6">Weekly Prizes</Typography>
+            <Typography className={classes.heading} variant="h6">Weekly High & Low Scores</Typography>
             <Table className={classes.table}>
                 <TableHead>
                     <TableRow>
