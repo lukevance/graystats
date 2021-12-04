@@ -4,6 +4,11 @@ const sum = (items, prop) => {
     }, 0);
 };
 
+module.exports.startersForPosition = (players, position) => {
+    const positionPlayers = players.filter(plyr => plyr.position === position && plyr.starter === true);
+    return positionPlayers;
+};
+
 module.exports.totalPointsForPosition = (players, position) => {
     const positionPlayers = players.filter(plyr => plyr.position === position && plyr.starter === true);
     const totalPoints = Math.round(sum(positionPlayers, "points") * 10) / 10;
