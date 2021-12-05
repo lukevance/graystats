@@ -11,9 +11,12 @@ import Typography from '@material-ui/core/Typography';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 
+import PositionTableCell from './PositionTableCell';
+
 import {
     totalPointsForPosition, 
     startersForPosition,
+    seasonTotalPtsForPosition,
     sum
 } from '../util';
 
@@ -41,18 +44,21 @@ const useStyles = makeStyles(theme => ({
     selectedRow: {
         background: "#8F78AD"
     }
-
 }));
 
-const seasonTotalPtsForPosition = (teamData, position) => {
-    return teamData.schedule
-        .map(wk => totalPointsForPosition(wk.roster.players, position))
-        .reduce((total, curr) => total + curr);
-};
-
 const seasonAllStartersForPosition = (teamData, position) => {
-    return teamData.schedule
-        .map(wk => startersForPosition(wk.roster.players, position));
+    const playerWeeks = teamData.schedule
+        .map(wk => startersForPosition(wk.roster.players, position))
+        .flat();
+    const unique = [...new Set(playerWeeks.map(item => item.name))];
+    const uniquePlayerTotals = unique.map(plyr => {
+        return {
+            name: plyr,
+            starts: playerWeeks.filter(wk => wk.name === plyr).length,
+            points: playerWeeks.filter(wk => wk.name === plyr).map(wk => wk.points).reduce((total, curr) => total + curr),
+        }
+    });
+    return uniquePlayerTotals;
 };
 
 const seasonTotalPtsStartBench = (teamData, starter = true) => {
@@ -152,22 +158,11 @@ function DisplayPointsByPositionTable(props) {
                                 <TableCell className={classes.tableCell} onClick={() => console.log(seasonAllStartersForPosition(team, "RB"))}>
                                     {team.location + " " + team.nickname}
                                 </TableCell>
-                                <TableCell className={classes.tableCell}>
-                                    {Math.round(seasonTotalPtsForPosition(team, "QB") * 10) / 10}
-                                </TableCell>
-                                <TableCell className={classes.tableCell}>
-                                {/* {Math.round(team.schedule.map(wk => totalPointsForPosition(wk.roster.players, "RB")).reduce((total, curr) => total + curr) * 10) / 10} */}
-                                    {Math.round(seasonTotalPtsForPosition(team, "RB") * 10) / 10}
-                                </TableCell>
-                                <TableCell className={classes.tableCell}>
-                                {Math.round(team.schedule.map(wk => totalPointsForPosition(wk.roster.players, "WR")).reduce((total, curr) => total + curr) * 10) / 10}
-                                </TableCell>
-                                <TableCell className={classes.tableCell}>
-                                {Math.round(team.schedule.map(wk => totalPointsForPosition(wk.roster.players, "TE")).reduce((total, curr) => total + curr) * 10) / 10}
-                                </TableCell>
-                                <TableCell className={classes.tableCell}>
-                                {Math.round(team.schedule.map(wk => totalPointsForPosition(wk.roster.players, "D/ST")).reduce((total, curr) => total + curr) * 10) / 10}
-                                </TableCell>
+                                <PositionTableCell team={team} position={"QB"}/>
+                                <PositionTableCell team={team} position={"RB"}/>
+                                <PositionTableCell team={team} position={"WR"}/>
+                                <PositionTableCell team={team} position={"TE"}/>
+                                <PositionTableCell team={team} position={"D/ST"}/>
                                 <TableCell className={classes.tableCell}>
                                     {Math.round(team.schedule.map(wk => sum(wk.roster.players.filter(plyr => plyr.starter === true), "points")).reduce((total, curr) => total + curr)  * 10) / 10}
                                 </TableCell>

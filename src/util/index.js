@@ -4,15 +4,21 @@ const sum = (items, prop) => {
     }, 0);
 };
 
-module.exports.startersForPosition = (players, position) => {
-    const positionPlayers = players.filter(plyr => plyr.position === position && plyr.starter === true);
-    return positionPlayers;
-};
-
-module.exports.totalPointsForPosition = (players, position) => {
+const totalPointsForPosition = (players, position) => {
     const positionPlayers = players.filter(plyr => plyr.position === position && plyr.starter === true);
     const totalPoints = Math.round(sum(positionPlayers, "points") * 10) / 10;
     return totalPoints;
+};
+
+module.exports.seasonTotalPtsForPosition = (teamData, position) => {
+    return teamData.schedule
+        .map(wk => totalPointsForPosition(wk.roster.players, position))
+        .reduce((total, curr) => total + curr);
+};
+
+module.exports.startersForPosition = (players, position) => {
+    const positionPlayers = players.filter(plyr => plyr.position === position && plyr.starter === true);
+    return positionPlayers;
 };
 
 module.exports.teamNameFromId = (id, teams) => {
@@ -25,6 +31,7 @@ module.exports.teamNameFromId = (id, teams) => {
 };
 
 module.exports.sum = sum;
+module.exports.totalPointsForPosition = totalPointsForPosition;
 
 module.exports.range = (start, end) => {
     let range = [];
